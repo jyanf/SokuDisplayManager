@@ -70,6 +70,13 @@ target_link_libraries(DisplayManager PRIVATE
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/build" CACHE PATH "Install prefix, can be targeted to game modules folder")
 # copy dll
 install(FILES $<TARGET_FILE:DisplayManager> DESTINATION ${PROJECT_NAME})
+# copy pdb
+if (MSVC)
+  install(
+    FILES $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:$<TARGET_PDB_FILE:DisplayManager>>
+    DESTINATION ${PROJECT_NAME}
+  )
+endif()
 # copy assets
 install(FILES
     "${CMAKE_SOURCE_DIR}/DisplayManager.ini"
